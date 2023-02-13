@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, StyleSheet, Platform, Image } from 'react-native';
 
 const MetronomeEdit = ({ visible, onClose }) => {
 
     const [bpm, setBpm] = useState(4);
+    const [buttonSelected, setButtonSelected] = useState(0);
 
     function handleIncrease() {
         if (bpm < 12) {
@@ -17,11 +18,16 @@ const MetronomeEdit = ({ visible, onClose }) => {
         }
     }
 
+    function handleSelected(id) {
+        setButtonSelected(id)
+    }
+
     return (
         <Modal visible={visible} animationType="slide" transparent={true}>
             <View style={styles.container}>
 
-                <View style={styles.bpm}>
+                {/* Part 1 */}
+                <View>
                     <Text style={styles.title}>
                         Batidas Por Minuto
                     </Text>
@@ -29,6 +35,7 @@ const MetronomeEdit = ({ visible, onClose }) => {
                         {bpm}
                     </Text>
 
+                    {/* Content BPM */}
                     <View style={{ flexDirection: 'row' }}>
                         <View style={[styles.btnDecrease, Platform.OS === 'android' ? '' : { marginTop: 20 }]}>
                             <TouchableOpacity onPress={handleDecrease}>
@@ -42,14 +49,86 @@ const MetronomeEdit = ({ visible, onClose }) => {
                             </TouchableOpacity>
                         </View>
                     </View>
+                </View>
+
+                <View style={[styles.bar, Platform.OS === 'android' ? { marginTop: 17 } : { marginTop: 43.5 }]}></View>
+
+                {/* Part 2 */}
+                <View>
+                    <Text style={styles.title}>
+                        Divisão de Batidas
+                    </Text>
+
+                    {/* BPM Style */}
+                    <View style={styles.division}>
+
+                        {/* Divison 1 */}
+                        <TouchableOpacity style={[styles.type_bpm, buttonSelected === 0 ? { backgroundColor: '#00D93899' } : '']} activeOpacity={0.7} onClick={() => handleSelected(1)}>
+                            <Image
+                                source={require('../../../assets/NOTE_Musical_One.png')}
+                                style={{ alignSelf: 'center', width: 10, height: 30, marginTop: 7 }}
+                            />
+                        </TouchableOpacity>
+
+                        {/* Divison 2 */}
+                        <TouchableOpacity style={[styles.type_bpm, buttonSelected === 1 ? { backgroundColor: '#00D93890' } : '']} activeOpacity={0.7} onClick={() => handleSelected(2)}>
+                            <Image
+                                source={require('../../../assets/NOTE_Musical_Two.png')}
+                                style={{ alignSelf: 'center', width: 15, height: 25, marginTop: 10 }}
+                            />
+                        </TouchableOpacity>
+
+                        {/* Divison 3 */}
+                        <TouchableOpacity style={[styles.type_bpm, buttonSelected === 3 ? { backgroundColor: '#00D93890' } : '']} activeOpacity={0.7} onClick={() => handleSelected(3)}>
+                            <Image
+                                source={require('../../../assets/NOTE_Musical_Three.png')}
+                                style={{ alignSelf: 'center', width: 23, height: 20, marginTop: 12 }}
+                            />
+                        </TouchableOpacity>
+
+
+                    </View>
+
+                    {/* Divison Part 2 */}
+                    <View style={[styles.division, { marginTop: 30 }]}>
+
+                        {/* Divison 4 */}
+                        <TouchableOpacity style={styles.type_bpm} activeOpacity={0.7}>
+                            <Image
+                                source={require('../../../assets/NOTE_Musical_Four.png')}
+                                style={{ alignSelf: 'center', width: 30, height: 21, marginTop: 12 }}
+                            />
+                        </TouchableOpacity>
+
+                        {/* Divison 5 */}
+                        <TouchableOpacity style={styles.type_bpm} activeOpacity={0.7}>
+                            <Image
+                                source={require('../../../assets/NOTE_Musical_One.png')}
+                                style={{ alignSelf: 'center', width: 10, height: 30, marginTop: 7 }}
+                            />
+                        </TouchableOpacity>
+
+                        {/* Divison 6 */}
+                        <TouchableOpacity style={styles.type_bpm} activeOpacity={0.7}>
+                            <Image
+                                source={require('../../../assets/NOTE_Musical_One.png')}
+                                style={{ alignSelf: 'center', width: 10, height: 30, marginTop: 7 }}
+                            />
+                        </TouchableOpacity>
+                    </View>
 
                 </View>
 
-                <View style={[styles.bar, Platform.OS === 'android' ? { marginTop: 15 } : { marginTop: 43.5 }]}></View>
 
-                <TouchableOpacity onPress={onClose}>
-                    <Text>Fechar</Text>
-                </TouchableOpacity>
+                <View style={styles.exit}>
+                    <TouchableOpacity onPress={onClose} >
+                        <Text style={styles.btnExit}>Fechar</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={onClose} style={styles.btnExit}>
+                        <Text style={styles.btnExit}>Salvar</Text>
+                    </TouchableOpacity>
+                </View>
+
 
             </View>
         </Modal >
@@ -71,7 +150,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
     },
     title: {
-        color: '#D7D7D780',
+        color: '#D7D7D7',
         fontSize: 18,
         marginTop: 44,
         fontWeight: '500',
@@ -124,6 +203,33 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#8C8C8C',
         width: '100%',
+    },
+    division: {
+        flexDirection: 'row',
+        marginTop: 35,
+        justifyContent: 'space-evenly',
+        width: '100%'
+    },
+    type_bpm: {
+        borderWidth: 1,
+        borderColor: '#74747470',
+        backgroundColor: 'transparent',
+        width: 45,
+        height: 45,
+        borderRadius: 100
+    },
+    exit: {
+        flexDirection: 'row',
+        marginTop: 35,
+        justifyContent: 'space-around',
+        width: '100%'
+    },
+    btnExit: {
+        color: '#00D938',
+        fontSize: 18,
+        textShadowOffset: { width: 5, height: 5 },
+        textShadowRadius: 10,
+        textShadowColor: '#00000070',
     }
 });
 

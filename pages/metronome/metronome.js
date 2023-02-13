@@ -13,7 +13,8 @@ export default function Metronome() {
             <View style={styles.header}>
                 <View style={styles.header_bar_1}></View>
                 <Image
-                    source={require('../../assets/NOTE_Musical.png')}
+                    source={require('../../assets/NOTE_Musical_One.png')}
+                    style={{width: 10, height: 30}}
                 />
                 <View style={styles.header_bar_2}></View>
 
@@ -46,7 +47,7 @@ export default function Metronome() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#252526'
+        backgroundColor: '#252526',
     },
     IosPadding: {
         paddingTop: 50
